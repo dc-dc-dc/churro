@@ -913,6 +913,197 @@ body::after {
   transform: translateY(-1px);
 }
 
+/* ─── Car Comparison View ────────────────────────────────────────────────── */
+.cmp-view {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: msgIn 0.22s ease-out;
+}
+
+.cmp-nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.cmp-subtitle {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--c-text-muted);
+}
+
+.cmp-table {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--c-border);
+  border-radius: 16px;
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+/* ── Rows ── */
+.cmp-row {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid var(--c-border);
+  min-width: fit-content;
+}
+.cmp-row:last-child { border-bottom: none; }
+.cmp-row--alt { background: var(--c-surface-raised); }
+
+/* ── Label column ── */
+.cmp-label {
+  width: 150px;
+  min-width: 150px;
+  flex-shrink: 0;
+  padding: 16px 18px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--c-text-muted);
+  border-right: 1px solid var(--c-border);
+  display: flex;
+  align-items: center;
+}
+.cmp-label--top { align-items: flex-start; padding-top: 18px; }
+
+/* ── Car header column (in the header row) ── */
+.cmp-car-header {
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--c-border);
+}
+.cmp-car-header:last-child { border-right: none; }
+
+/* Hero gradient banner */
+.cmp-hero {
+  position: relative;
+  height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.cmp-hero-fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(7, 9, 15, 0.84) 0%, transparent 65%);
+}
+.cmp-hero-text {
+  position: relative;
+  z-index: 1;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.cmp-hero-make {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: rgba(255, 255, 255, 0.38);
+  font-family: var(--font-mono);
+}
+.cmp-hero-model {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: #fff;
+  font-weight: 600;
+  line-height: 1.1;
+}
+.cmp-hero-year {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.32);
+  font-family: var(--font-mono);
+  margin-top: 2px;
+}
+
+/* Price row below hero */
+.cmp-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--c-border);
+}
+.cmp-price {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--c-text-secondary);
+  line-height: 1;
+}
+.cmp-price-row--best .cmp-price { color: var(--c-accent); }
+.cmp-price-unit {
+  font-size: 12px;
+  color: var(--c-text-muted);
+}
+.cmp-badge {
+  margin-left: 6px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--c-accent);
+  background: var(--c-accent-subtle);
+  border: 1px solid rgba(232, 160, 32, 0.2);
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* ── Value cells (spec & feature rows) ── */
+.cmp-cell {
+  flex: 1;
+  min-width: 220px;
+  padding: 16px 18px;
+  font-size: 14px;
+  color: var(--c-text-primary);
+  display: flex;
+  align-items: center;
+  border-right: 1px solid var(--c-border);
+}
+.cmp-cell:last-child { border-right: none; }
+
+/* Best-value highlight */
+.cmp-best {
+  color: var(--c-accent);
+  font-weight: 600;
+}
+
+.cmp-review-count {
+  font-size: 11px;
+  color: var(--c-text-muted);
+  margin-left: 5px;
+}
+
+/* Features cell */
+.cmp-cell--features {
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: flex-start;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+/* Unique feature highlight */
+.feature-tag--unique {
+  background: var(--c-accent-subtle);
+  border-color: rgba(232, 160, 32, 0.28);
+  color: var(--c-accent);
+}
+
+/* Actions row */
+.cmp-row--actions .cmp-cell { padding: 16px; }
+
 /* ─── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 640px) {
   .nav-link, .nav-divider { display: none; }

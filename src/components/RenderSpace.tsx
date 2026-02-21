@@ -1,65 +1,46 @@
 import type { View } from "../App";
 import { CarCard, BRAND_GRADIENTS, DEFAULT_GRADIENT, type Car } from "./CarCard";
+import { CarComparison } from "./CarComparison";
+import { carInventory } from "../data/inventory";
 
-// ─── Mock data shown in the default state ──────────────────────────────────
-const FEATURED_CARS: Car[] = [
-  {
-    id: "1",
-    make: "Tesla",
-    model: "Model S Plaid",
-    year: 2024,
-    pricePerDay: 189,
-    rating: 4.97,
-    reviewCount: 234,
-    type: "Electric",
-    seats: 5,
-    range: "396 mi",
-    location: "San Francisco, CA",
-    features: ["Autopilot", "Ludicrous Mode", "Premium Audio"],
-  },
-  {
-    id: "2",
-    make: "Porsche",
-    model: "911 Carrera",
-    year: 2023,
-    pricePerDay: 295,
-    rating: 4.92,
-    reviewCount: 87,
-    type: "Sport",
-    seats: 4,
-    range: "22 MPG",
-    location: "Los Angeles, CA",
-    features: ["Sport Chrono", "Bose Audio", "PDK Gearbox"],
-  },
-  {
-    id: "3",
-    make: "Mercedes-Benz",
-    model: "G 63 AMG",
-    year: 2024,
-    pricePerDay: 350,
-    rating: 4.88,
-    reviewCount: 156,
-    type: "SUV",
-    seats: 5,
-    range: "15 MPG",
-    location: "Miami, FL",
-    features: ["AMG Performance", "Panoramic Roof", "Burmester Audio"],
-  },
-  {
-    id: "4",
-    make: "BMW",
-    model: "M4 Competition",
-    year: 2023,
-    pricePerDay: 245,
-    rating: 4.95,
-    reviewCount: 112,
-    type: "Sport",
-    seats: 4,
-    range: "19 MPG",
-    location: "Chicago, IL",
-    features: ["M Sport Diff", "Carbon Roof", "Harman Kardon"],
-  },
+// ─── Map inventory car → frontend Car shape ─────────────────────────────────
+function pseudoRating(id: string): number {
+  const hash = id.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
+  return Math.round((4.75 + (hash % 25) / 100) * 100) / 100;
+}
+function pseudoReviewCount(id: string): number {
+  const hash = id.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
+  return 50 + (hash % 200);
+}
+function toCard(id: string): Car | undefined {
+  const car = carInventory.find((c) => c.id === id);
+  if (!car) return undefined;
+  return {
+    id: car.id,
+    make: car.make,
+    model: car.model,
+    year: car.year,
+    pricePerDay: Math.round(car.dailyRate / 100),
+    rating: pseudoRating(car.id),
+    reviewCount: pseudoReviewCount(car.id),
+    type: car.category,
+    seats: car.seats,
+    range: car.mileagePolicy,
+    location: car.location,
+    features: car.features,
+  };
+}
+
+// Curated featured cars — one from each major category
+const FEATURED_IDS = [
+  "ev-models-01",      // Tesla Model S — electric
+  "spt-911-01",        // Porsche 911 — sports
+  "lux-rangerover-01", // Range Rover — luxury SUV
+  "suv-rav4-01",       // Toyota RAV4 — everyday SUV
+  "spt-m4-01",         // BMW M4 — sports sedan
+  "trk-f150-01",       // Ford F-150 — truck
 ];
+const FEATURED_CARS: Car[] = FEATURED_IDS.map(toCard).filter(Boolean) as Car[];
 
 const SUGGESTED_PROMPTS = [
   { icon: "⚡", text: "Find me something sporty for the weekend" },
@@ -91,6 +72,9 @@ export function RenderSpace({ view, onSuggestedPrompt, onCarInteract, onBack, on
       )}
       {view.type === "car_detail" && view.data?.car && (
         <CarDetailView car={view.data.car as Car} onBack={onBack} onBook={onBook} />
+      )}
+      {view.type === "comparison" && view.data?.cars?.length > 0 && (
+        <CarComparison cars={view.data.cars as Car[]} onBack={onBack} onBook={onBook} />
       )}
       {view.type === "map" && <MapView data={view.data} />}
       {view.type === "booking" && <BookingView data={view.data} />}

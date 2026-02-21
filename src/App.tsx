@@ -12,7 +12,7 @@ export type Message = {
 };
 
 export type View = {
-  type: "empty" | "cars" | "map" | "booking" | "car_detail";
+  type: "empty" | "cars" | "map" | "booking" | "car_detail" | "comparison";
   data?: any;
 };
 
