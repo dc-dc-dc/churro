@@ -14,7 +14,7 @@ export function ChatBar({ messages, isLoading, onSend }: ChatBarProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const historyRef = useRef<HTMLDivElement>(null);
 
-  const isExpanded = hasFocus || isLoading;
+  const isExpanded = hasFocus;
   const lastAssistantMessage = [...messages].reverse().find((m) => m.role === "assistant");
 
   // Collapse when clicking anywhere outside the chat bar
