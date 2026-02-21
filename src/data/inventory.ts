@@ -1791,7 +1791,12 @@ export const carInventory: Car[] = [
 export function searchInventory(filters: {
   category?: CarCategory;
   make?: string;
+  model?: string;
+  transmission?: string;
+  fuelType?: string;
+  mileagePolicy?: string;
   maxDailyRate?: number;
+  minDailyRate?: number;
   minSeats?: number;
   features?: string[];
   location?: string;
@@ -1801,11 +1806,15 @@ export function searchInventory(filters: {
   return carInventory.filter((car) => {
     if (filters.category && car.category !== filters.category) return false;
     if (filters.make && !car.make.toLowerCase().includes(filters.make.toLowerCase())) return false;
+    if (filters.model && !car.model.toLowerCase().includes(filters.model.toLowerCase())) return false;
+    if (filters.transmission && car.transmission.toLowerCase() !== filters.transmission.toLowerCase()) return false;
+    if (filters.fuelType && car.fuelType.toLowerCase() !== filters.fuelType.toLowerCase()) return false;
+    if (filters.mileagePolicy && !car.mileagePolicy.toLowerCase().includes(filters.mileagePolicy.toLowerCase())) return false;
     if (filters.maxDailyRate && car.dailyRate > filters.maxDailyRate) return false;
+    if (filters.minDailyRate && car.dailyRate < filters.minDailyRate) return false;
     if (filters.minSeats && car.seats < filters.minSeats) return false;
     if (filters.location) {
       const loc = filters.location.toLowerCase();
-      // match by city name substring (e.g. "austin" matches "Austin, TX")
       if (!car.location.toLowerCase().includes(loc)) return false;
     }
     if (filters.pickupMethod && car.pickupMethod !== filters.pickupMethod) return false;
