@@ -233,8 +233,8 @@ body::after {
   position: sticky;
   top: var(--nav-height);
   z-index: 90;
-  padding: 20px 0 0;
-  background: linear-gradient(to bottom, var(--c-bg) 70%, transparent);
+  padding: 32px 0 0;
+  background: linear-gradient(to bottom, var(--c-bg) 80%, transparent);
 }
 
 /* Conversation history */
@@ -648,6 +648,54 @@ body::after {
   background: var(--c-accent-subtle);
   border-color: rgba(232, 160, 32, 0.3);
   color: var(--c-accent);
+}
+
+/* ─── Car Detail Layout (wraps detail + booking panel) ──────────────────── */
+.car-detail-layout {
+  padding-top: 20px;
+  animation: msgIn 0.22s ease-out;
+}
+.car-detail-layout--split {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+  max-width: 1100px;
+}
+.car-detail-layout--split .car-detail-view {
+  flex: 1;
+  max-width: none;
+  padding-top: 0;
+  animation: none;
+}
+
+/* Booking panel (side panel in split layout) */
+.car-booking-panel {
+  width: 360px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: calc(var(--nav-height) + 24px);
+  animation: msgIn 0.2s ease-out;
+}
+.car-booking-panel-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Reserve button toggled state */
+.car-detail-reserve--active {
+  background: transparent;
+  border: 1px solid var(--c-border-bright);
+  color: var(--c-text-secondary);
+}
+.car-detail-reserve--active:hover {
+  background: var(--c-surface-raised);
+  box-shadow: none;
+  transform: none;
 }
 
 /* ─── Car Detail View ────────────────────────────────────────────────────── */

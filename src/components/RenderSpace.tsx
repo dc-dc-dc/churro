@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { View } from "../App";
 import { CarCard, BRAND_GRADIENTS, DEFAULT_GRADIENT, type Car } from "./CarCard";
 import { CarComparison } from "./CarComparison";
@@ -71,13 +72,13 @@ export function RenderSpace({ view, onSuggestedPrompt, onCarInteract, onBack, on
         <CarsView cars={(view.data?.cars as Car[]) ?? FEATURED_CARS} onCarInteract={onCarInteract} />
       )}
       {view.type === "car_detail" && view.data?.car && (
-        <CarDetailView car={view.data.car as Car} onBack={onBack} onBook={onBook} />
+        <CarDetailView car={view.data.car as Car} onBack={onBack} />
       )}
       {view.type === "comparison" && view.data?.cars?.length > 0 && (
         <CarComparison cars={view.data.cars as Car[]} onBack={onBack} onBook={onBook} />
       )}
       {view.type === "map" && <MapView data={view.data} />}
-      {view.type === "booking" && <BookingView data={view.data} />}
+      {view.type === "booking" && <BookingView data={view.data} onBack={onBack} />}
     </main>
   );
 }
@@ -148,79 +149,115 @@ function CarsView({ cars, onCarInteract }: { cars: Car[]; onCarInteract: (car: C
 }
 
 // ─── Car detail view ───────────────────────────────────────────────────────
-function CarDetailView({ car, onBack, onBook }: { car: Car; onBack: () => void; onBook: (car: Car) => void }) {
+function CarDetailView({ car, onBack }: { car: Car; onBack: () => void }) {
+  const [showBooking, setShowBooking] = useState(false);
   const gradient = BRAND_GRADIENTS[car.make] ?? DEFAULT_GRADIENT;
 
   return (
-    <div className="car-detail-view">
-      {/* Nav row */}
-      <div className="car-detail-nav">
-        <button className="car-detail-back" onClick={onBack}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="m15 18-6-6 6-6" />
-          </svg>
-          Back
+    <div className={`car-detail-layout${showBooking ? " car-detail-layout--split" : ""}`}>
+      {/* ── Car info panel ── */}
+      <div className="car-detail-view">
+        <div className="car-detail-nav">
+          <button className="car-detail-back" onClick={onBack}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+            Back
+          </button>
+          <span className="car-type-badge">{car.type}</span>
+        </div>
+
+        <div className="car-detail-hero" style={{ background: gradient }}>
+          <div className="car-detail-hero-fade" />
+          <div className="car-detail-hero-content">
+            <p className="car-detail-hero-eyebrow">{car.year} · {car.location}</p>
+            <h2 className="car-detail-hero-title">{car.make} {car.model}</h2>
+          </div>
+        </div>
+
+        <div className="car-detail-header">
+          <div className="car-detail-meta">
+            <span className="car-rating"><span className="rating-star">★</span>{car.rating.toFixed(2)}</span>
+            <span className="car-sep">·</span>
+            <span className="car-reviews">{car.reviewCount} reviews</span>
+            <span className="car-sep">·</span>
+            <span className="car-location">{car.location}</span>
+          </div>
+          <div className="car-detail-price-block">
+            <span className="car-detail-price">${car.pricePerDay}</span>
+            <span className="car-price-unit">/day</span>
+          </div>
+        </div>
+
+        <div className="car-detail-specs-grid">
+          <div className="car-detail-spec-card">
+            <span className="car-detail-spec-icon">👤</span>
+            <span className="car-detail-spec-label">Seats</span>
+            <span className="car-detail-spec-value">{car.seats}</span>
+          </div>
+          <div className="car-detail-spec-card">
+            <span className="car-detail-spec-icon">⚡</span>
+            <span className="car-detail-spec-label">Range</span>
+            <span className="car-detail-spec-value">{car.range}</span>
+          </div>
+          <div className="car-detail-spec-card">
+            <span className="car-detail-spec-icon">🏎</span>
+            <span className="car-detail-spec-label">Type</span>
+            <span className="car-detail-spec-value">{car.type}</span>
+          </div>
+        </div>
+
+        <div className="car-detail-features-section">
+          <h4 className="car-detail-section-title">Features</h4>
+          <div className="car-features">
+            {car.features.map((f) => (
+              <span key={f} className="feature-tag feature-tag--detail">{f}</span>
+            ))}
+          </div>
+        </div>
+
+        <button
+          className={`car-detail-reserve${showBooking ? " car-detail-reserve--active" : ""}`}
+          onClick={() => setShowBooking((v) => !v)}
+        >
+          {showBooking ? "Hide booking" : `Reserve · $${car.pricePerDay}/day`}
         </button>
-        <span className="car-type-badge">{car.type}</span>
       </div>
 
-      {/* Hero */}
-      <div className="car-detail-hero" style={{ background: gradient }}>
-        <div className="car-detail-hero-fade" />
-        <div className="car-detail-hero-content">
-          <p className="car-detail-hero-eyebrow">{car.year} · {car.location}</p>
-          <h2 className="car-detail-hero-title">{car.make} {car.model}</h2>
-        </div>
-      </div>
+      {/* ── Booking panel ── */}
+      {showBooking && (
+        <div className="car-booking-panel">
+          <div className="car-booking-panel-header">
+            <div>
+              <p className="empty-eyebrow" style={{ marginBottom: 4 }}>{car.make} {car.model}</p>
+              <h3 className="booking-title" style={{ marginBottom: 0 }}>Complete your booking</h3>
+            </div>
+            <span className="car-detail-price">${car.pricePerDay}<span className="car-price-unit">/day</span></span>
+          </div>
 
-      {/* Header — name + price */}
-      <div className="car-detail-header">
-        <div className="car-detail-meta">
-          <span className="car-rating"><span className="rating-star">★</span>{car.rating.toFixed(2)}</span>
-          <span className="car-sep">·</span>
-          <span className="car-reviews">{car.reviewCount} reviews</span>
-          <span className="car-sep">·</span>
-          <span className="car-location">{car.location}</span>
+          <div className="booking-card">
+            <div className="booking-section">
+              <label className="booking-label">Pickup location</label>
+              <input className="booking-input" defaultValue={car.location} placeholder="Enter pickup location" />
+            </div>
+            <div className="booking-row">
+              <div className="booking-section">
+                <label className="booking-label">Pickup date</label>
+                <input className="booking-input" type="date" />
+              </div>
+              <div className="booking-section">
+                <label className="booking-label">Return date</label>
+                <input className="booking-input" type="date" />
+              </div>
+            </div>
+            <div className="booking-section">
+              <label className="booking-label">Payment method</label>
+              <input className="booking-input" placeholder="Card number" />
+            </div>
+            <button className="booking-button">Reserve now</button>
+          </div>
         </div>
-        <div className="car-detail-price-block">
-          <span className="car-detail-price">${car.pricePerDay}</span>
-          <span className="car-price-unit">/day</span>
-        </div>
-      </div>
-
-      {/* Specs */}
-      <div className="car-detail-specs-grid">
-        <div className="car-detail-spec-card">
-          <span className="car-detail-spec-icon">👤</span>
-          <span className="car-detail-spec-label">Seats</span>
-          <span className="car-detail-spec-value">{car.seats}</span>
-        </div>
-        <div className="car-detail-spec-card">
-          <span className="car-detail-spec-icon">⚡</span>
-          <span className="car-detail-spec-label">Range</span>
-          <span className="car-detail-spec-value">{car.range}</span>
-        </div>
-        <div className="car-detail-spec-card">
-          <span className="car-detail-spec-icon">🏎</span>
-          <span className="car-detail-spec-label">Type</span>
-          <span className="car-detail-spec-value">{car.type}</span>
-        </div>
-      </div>
-
-      {/* Features */}
-      <div className="car-detail-features-section">
-        <h4 className="car-detail-section-title">Features</h4>
-        <div className="car-features">
-          {car.features.map((f) => (
-            <span key={f} className="feature-tag feature-tag--detail">{f}</span>
-          ))}
-        </div>
-      </div>
-
-      {/* CTA */}
-      <button className="car-detail-reserve" onClick={() => onBook(car)}>
-        Reserve · ${car.pricePerDay}/day
-      </button>
+      )}
     </div>
   );
 }
@@ -240,9 +277,17 @@ function MapView({ data: _data }: { data: unknown }) {
 }
 
 // ─── Booking form view ─────────────────────────────────────────────────────
-function BookingView({ data }: { data?: { location?: string; startDate?: string; endDate?: string } }) {
+function BookingView({ data, onBack }: { data?: { location?: string; startDate?: string; endDate?: string }; onBack: () => void }) {
   return (
     <div className="booking-view">
+      <div className="car-detail-nav" style={{ marginBottom: 8 }}>
+        <button className="car-detail-back" onClick={onBack}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+          Back
+        </button>
+      </div>
       <h3 className="booking-title">Complete your booking</h3>
       <div className="booking-card">
         <div className="booking-section">
