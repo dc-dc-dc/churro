@@ -47,12 +47,12 @@ const FEATURED_IDS = [
 const FEATURED_CARS: Car[] = FEATURED_IDS.map(toCard).filter(Boolean) as Car[];
 
 const SUGGESTED_PROMPTS = [
-  { icon: "⚡", text: "Find me something sporty for the weekend" },
-  { icon: "🛻", text: "I need a truck in Austin for moving" },
-  { icon: "💰", text: "What's available under $100/day?" },
-  { icon: "🌊", text: "Best cars for a coastal road trip" },
-  { icon: "🤖", text: "Show me the most unique EVs available" },
-  { icon: "👨‍👩‍👧‍👦", text: "Family SUV for 6 people in Denver" },
+  { icon: "⚡", text: "Sporty car in Los Angeles" },
+  { icon: "🛻", text: "Truck for moving in New York" },
+  { icon: "💰", text: "Under $100/day in Los Angeles" },
+  { icon: "🤖", text: "Best EVs in Los Angeles" },
+  { icon: "👨‍👩‍👧‍👦", text: "Family SUV for 6 in New York" },
+  { icon: "🏎", text: "Luxury car in New York" },
 ];
 
 // ─── Props ─────────────────────────────────────────────────────────────────

@@ -79,6 +79,7 @@ Transmissions: automatic | manual (manual available in sports only)
 
 ## Filter keys — include these in view.data.filters to query inventory
   "category"      — one of the 8 category strings above
+  "make"          — car brand, e.g. "Tesla", "BMW", "Toyota" (case-insensitive substring match)
   "maxDailyRate"  — max price in cents (e.g. 10000 = $100/day)
   "minSeats"      — minimum number of seats
   "features"      — array of feature keyword strings (any match, case-insensitive)
@@ -217,6 +218,7 @@ const server = serve({
             if (parsed.view?.type === "cars") {
               const filters = (parsed.view.data?.filters ?? {}) as {
                 category?: import("./types").CarCategory;
+                make?: string;
                 maxDailyRate?: number;
                 minSeats?: number;
                 features?: string[];

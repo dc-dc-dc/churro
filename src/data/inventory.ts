@@ -1790,6 +1790,7 @@ export const carInventory: Car[] = [
 
 export function searchInventory(filters: {
   category?: CarCategory;
+  make?: string;
   maxDailyRate?: number;
   minSeats?: number;
   features?: string[];
@@ -1799,6 +1800,7 @@ export function searchInventory(filters: {
 }): Car[] {
   return carInventory.filter((car) => {
     if (filters.category && car.category !== filters.category) return false;
+    if (filters.make && !car.make.toLowerCase().includes(filters.make.toLowerCase())) return false;
     if (filters.maxDailyRate && car.dailyRate > filters.maxDailyRate) return false;
     if (filters.minSeats && car.seats < filters.minSeats) return false;
     if (filters.location) {
