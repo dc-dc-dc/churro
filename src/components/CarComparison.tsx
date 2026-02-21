@@ -61,7 +61,15 @@ export function CarComparison({ cars, onBack, onBook }: Props) {
             const gradient = BRAND_GRADIENTS[car.make] ?? DEFAULT_GRADIENT;
             return (
               <div key={car.id} className="cmp-car-header">
-                <div className="cmp-hero" style={{ background: gradient }}>
+                <div className="cmp-hero" style={{ background: car.image ? undefined : gradient }}>
+                  {car.image ? (
+                    <img
+                      className="car-image-photo"
+                      src={car.image}
+                      alt={`${car.make} ${car.model}`}
+                      loading="lazy"
+                    />
+                  ) : null}
                   <div className="cmp-hero-fade" />
                   <div className="cmp-hero-text">
                     <span className="cmp-hero-make">{car.make}</span>

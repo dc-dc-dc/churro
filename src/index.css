@@ -1117,6 +1117,13 @@ body::after {
 .cmp-car-header:last-child { border-right: none; }
 
 /* Hero gradient banner */
+.cmp-hero .car-image-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .cmp-hero {
   position: relative;
   height: 160px;
