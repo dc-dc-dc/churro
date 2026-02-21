@@ -12,7 +12,7 @@ export type Message = {
 };
 
 export type View = {
-  type: "empty" | "cars" | "map" | "booking";
+  type: "empty" | "cars" | "map" | "booking" | "car_detail";
   data?: any;
 };
 
@@ -39,10 +39,10 @@ export function App() {
 
   const handleCarInteract = useCallback((car: Car) => {
     setInteractions((prev) => {
-      // Keep the 10 most recent signals (duplicates allowed — repeated clicks = stronger interest)
       const next: Interaction = { type: "car_click", car, timestamp: new Date().toISOString() };
       return [...prev.slice(-9), next];
     });
+    setView({ type: "car_detail", data: { car } });
   }, []);
 
   const sendMessage = useCallback(
@@ -147,7 +147,13 @@ export function App() {
 
       <div className="main-content">
         <ChatBar messages={messages} isLoading={isLoading} onSend={sendMessage} />
-        <RenderSpace view={view} onSuggestedPrompt={sendMessage} onCarInteract={handleCarInteract} />
+        <RenderSpace
+          view={view}
+          onSuggestedPrompt={sendMessage}
+          onCarInteract={handleCarInteract}
+          onBack={() => setView({ type: "empty" })}
+          onBook={(car) => setView({ type: "booking", data: { location: car.location } })}
+        />
       </div>
     </div>
   );

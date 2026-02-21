@@ -14,7 +14,7 @@ export interface Car {
 }
 
 // Subtle brand-tinted dark gradients — no external image deps
-const BRAND_GRADIENTS: Record<string, string> = {
+export const BRAND_GRADIENTS: Record<string, string> = {
   Tesla:           "linear-gradient(145deg, #1a0808 0%, #2d0f0f 40%, #0f0505 100%)",
   Porsche:         "linear-gradient(145deg, #12100a 0%, #2d2410 40%, #0f0c06 100%)",
   "Mercedes-Benz": "linear-gradient(145deg, #0a0a0a 0%, #1e1e1e 40%, #0a0a0a 100%)",
@@ -23,7 +23,7 @@ const BRAND_GRADIENTS: Record<string, string> = {
   Lamborghini:     "linear-gradient(145deg, #111006 0%, #2a2808 40%, #111006 100%)",
 };
 
-const DEFAULT_GRADIENT = "linear-gradient(145deg, #0d1120 0%, #1a2038 40%, #0d1120 100%)";
+export const DEFAULT_GRADIENT = "linear-gradient(145deg, #0d1120 0%, #1a2038 40%, #0d1120 100%)";
 
 interface CarCardProps {
   car: Car;

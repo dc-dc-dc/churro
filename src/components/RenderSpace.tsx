@@ -1,5 +1,5 @@
 import type { View } from "../App";
-import { CarCard, type Car } from "./CarCard";
+import { CarCard, BRAND_GRADIENTS, DEFAULT_GRADIENT, type Car } from "./CarCard";
 
 // ─── Mock data shown in the default state ──────────────────────────────────
 const FEATURED_CARS: Car[] = [
@@ -75,10 +75,12 @@ interface RenderSpaceProps {
   view: View;
   onSuggestedPrompt: (prompt: string) => void;
   onCarInteract: (car: Car) => void;
+  onBack: () => void;
+  onBook: (car: Car) => void;
 }
 
 // ─── Root component ────────────────────────────────────────────────────────
-export function RenderSpace({ view, onSuggestedPrompt, onCarInteract }: RenderSpaceProps) {
+export function RenderSpace({ view, onSuggestedPrompt, onCarInteract, onBack, onBook }: RenderSpaceProps) {
   return (
     <main className="render-space">
       {view.type === "empty" && (
@@ -86,6 +88,9 @@ export function RenderSpace({ view, onSuggestedPrompt, onCarInteract }: RenderSp
       )}
       {view.type === "cars" && (
         <CarsView cars={(view.data?.cars as Car[]) ?? FEATURED_CARS} onCarInteract={onCarInteract} />
+      )}
+      {view.type === "car_detail" && view.data?.car && (
+        <CarDetailView car={view.data.car as Car} onBack={onBack} onBook={onBook} />
       )}
       {view.type === "map" && <MapView data={view.data} />}
       {view.type === "booking" && <BookingView data={view.data} />}
@@ -154,6 +159,84 @@ function CarsView({ cars, onCarInteract }: { cars: Car[]; onCarInteract: (car: C
           <CarCard key={car.id} car={car} onInteract={onCarInteract} />
         ))}
       </div>
+    </div>
+  );
+}
+
+// ─── Car detail view ───────────────────────────────────────────────────────
+function CarDetailView({ car, onBack, onBook }: { car: Car; onBack: () => void; onBook: (car: Car) => void }) {
+  const gradient = BRAND_GRADIENTS[car.make] ?? DEFAULT_GRADIENT;
+
+  return (
+    <div className="car-detail-view">
+      {/* Nav row */}
+      <div className="car-detail-nav">
+        <button className="car-detail-back" onClick={onBack}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+          Back
+        </button>
+        <span className="car-type-badge">{car.type}</span>
+      </div>
+
+      {/* Hero */}
+      <div className="car-detail-hero" style={{ background: gradient }}>
+        <div className="car-detail-hero-fade" />
+        <div className="car-detail-hero-content">
+          <p className="car-detail-hero-eyebrow">{car.year} · {car.location}</p>
+          <h2 className="car-detail-hero-title">{car.make} {car.model}</h2>
+        </div>
+      </div>
+
+      {/* Header — name + price */}
+      <div className="car-detail-header">
+        <div className="car-detail-meta">
+          <span className="car-rating"><span className="rating-star">★</span>{car.rating.toFixed(2)}</span>
+          <span className="car-sep">·</span>
+          <span className="car-reviews">{car.reviewCount} reviews</span>
+          <span className="car-sep">·</span>
+          <span className="car-location">{car.location}</span>
+        </div>
+        <div className="car-detail-price-block">
+          <span className="car-detail-price">${car.pricePerDay}</span>
+          <span className="car-price-unit">/day</span>
+        </div>
+      </div>
+
+      {/* Specs */}
+      <div className="car-detail-specs-grid">
+        <div className="car-detail-spec-card">
+          <span className="car-detail-spec-icon">👤</span>
+          <span className="car-detail-spec-label">Seats</span>
+          <span className="car-detail-spec-value">{car.seats}</span>
+        </div>
+        <div className="car-detail-spec-card">
+          <span className="car-detail-spec-icon">⚡</span>
+          <span className="car-detail-spec-label">Range</span>
+          <span className="car-detail-spec-value">{car.range}</span>
+        </div>
+        <div className="car-detail-spec-card">
+          <span className="car-detail-spec-icon">🏎</span>
+          <span className="car-detail-spec-label">Type</span>
+          <span className="car-detail-spec-value">{car.type}</span>
+        </div>
+      </div>
+
+      {/* Features */}
+      <div className="car-detail-features-section">
+        <h4 className="car-detail-section-title">Features</h4>
+        <div className="car-features">
+          {car.features.map((f) => (
+            <span key={f} className="feature-tag feature-tag--detail">{f}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* CTA */}
+      <button className="car-detail-reserve" onClick={() => onBook(car)}>
+        Reserve · ${car.pricePerDay}/day
+      </button>
     </div>
   );
 }

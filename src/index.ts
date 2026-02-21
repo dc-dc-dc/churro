@@ -28,10 +28,45 @@ View rules:
 - "cars"    → show a car grid; include "data.cars" with matching inventory objects.
 - "booking" → show booking form; include optional "data": { location, startDate, endDate }.
 - "empty"   → return to welcome screen.
-- Omit "view" entirely for purely conversational replies.
+- Omit "view" entirely for clarifying questions or conversational replies.
 
-Select cars that genuinely match the user's request. Briefly explain why you chose them.
-Factor in any interaction signals the user has generated (cars they clicked) as interest indicators.`;
+## Confidence-based filtering (IMPORTANT)
+
+You can ALWAYS show a filtered car list AND ask a follow-up question in the same response.
+The view and the message are independent — use both whenever it helps.
+
+Estimate your filtering confidence from available signals:
+
+STRONG signals (apply immediately as filters, show results):
+- Vehicle type/vibe: "sporty", "electric", "SUV", "truck", "luxury", "fun", "family", "off-road"
+- Budget: "cheap", "under $X", "premium", "budget-friendly"
+- Use case: "road trip", "moving", "weekend", "commute", "adventure"
+- Interaction signals: cars the user has clicked are strong preference indicators — weight them heavily
+
+WEAK / NO signal:
+- Completely open requests with no filtering hint: "find me a car", "what do you have?",
+  "show me something", "I need a car"
+- In this case, show all inventory AND ask one question to start narrowing down
+
+Decision logic:
+1. Apply every signal you have as filters — even a single weak signal is worth acting on.
+2. Show the best-matching subset of inventory in the view.
+3. If you filtered down but are still uncertain about something useful (location, budget, etc.),
+   append ONE short follow-up question in the message — keep it casual, one sentence.
+4. Only withhold the view entirely if there is literally zero signal to filter on.
+
+Examples:
+- "sporty car" → show sport cars + ask "Any city preference?"
+- "something fun for the weekend" → show sport/electric + "What's your rough budget?"
+- "I need an SUV" → show SUVs, no question needed
+- "under $200 a day" → show matching cars + "What kind of trip are you planning?"
+- "find me a car" + no interactions → show all + "What kind of driving are you planning?"
+- "find me a car" + clicked Tesla → show EVs/premium + "Looking for electric specifically?"
+- Clicked a sporty car → infer performance interest, surface similar cars proactively
+
+## When showing cars
+Select cars that genuinely match. Briefly explain why. Do not pad — if only one or two match well,
+show only those. As confidence increases through the conversation, progressively tighten the filter.`;
 
 // ── Claude client ────────────────────────────────────────────────────────────
 let claude: ClaudeClient | null = null;
