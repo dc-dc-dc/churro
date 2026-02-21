@@ -523,6 +523,15 @@ body::after {
   height: 210px;
   overflow: hidden;
 }
+.car-image-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.car-card:hover .car-image-photo { transform: scale(1.03); }
+
 .car-image-gradient {
   width: 100%;
   height: 100%;
@@ -560,6 +569,10 @@ body::after {
   letter-spacing: 0.09em;
   padding: 3px 10px;
   border-radius: 100px;
+}
+/* Inline variant — used in nav bars where absolute positioning is wrong */
+.car-type-badge--inline {
+  position: static;
 }
 
 .car-content {
@@ -741,10 +754,17 @@ body::after {
   border-radius: 16px;
   overflow: hidden;
 }
+.car-detail-hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .car-detail-hero-fade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(7, 9, 15, 0.78) 0%, rgba(7, 9, 15, 0.12) 60%, transparent 100%);
+  background: linear-gradient(to top, rgba(7, 9, 15, 0.82) 0%, rgba(7, 9, 15, 0.18) 60%, transparent 100%);
 }
 .car-detail-hero-content {
   position: absolute;
@@ -799,7 +819,7 @@ body::after {
 
 .car-detail-specs-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 12px;
 }
 .car-detail-spec-card {

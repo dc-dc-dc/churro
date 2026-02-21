@@ -29,6 +29,9 @@ function toCard(id: string): Car | undefined {
     range: car.mileagePolicy,
     location: car.location,
     features: car.features,
+    image: car.imageUrl,
+    transmission: car.transmission,
+    fuelType: car.fuelType,
   };
 }
 
@@ -164,10 +167,13 @@ function CarDetailView({ car, onBack }: { car: Car; onBack: () => void }) {
             </svg>
             Back
           </button>
-          <span className="car-type-badge">{car.type}</span>
+          <span className="car-type-badge car-type-badge--inline">{car.type}</span>
         </div>
 
-        <div className="car-detail-hero" style={{ background: gradient }}>
+        <div className="car-detail-hero" style={car.image ? undefined : { background: gradient }}>
+          {car.image && (
+            <img className="car-detail-hero-img" src={car.image} alt={`${car.make} ${car.model}`} />
+          )}
           <div className="car-detail-hero-fade" />
           <div className="car-detail-hero-content">
             <p className="car-detail-hero-eyebrow">{car.year} · {car.location}</p>
@@ -196,14 +202,33 @@ function CarDetailView({ car, onBack }: { car: Car; onBack: () => void }) {
             <span className="car-detail-spec-value">{car.seats}</span>
           </div>
           <div className="car-detail-spec-card">
-            <span className="car-detail-spec-icon">⚡</span>
-            <span className="car-detail-spec-label">Range</span>
+            <span className="car-detail-spec-icon">📍</span>
+            <span className="car-detail-spec-label">Mileage</span>
             <span className="car-detail-spec-value">{car.range}</span>
           </div>
           <div className="car-detail-spec-card">
             <span className="car-detail-spec-icon">🏎</span>
-            <span className="car-detail-spec-label">Type</span>
+            <span className="car-detail-spec-label">Category</span>
             <span className="car-detail-spec-value">{car.type}</span>
+          </div>
+          {car.transmission && (
+            <div className="car-detail-spec-card">
+              <span className="car-detail-spec-icon">⚙️</span>
+              <span className="car-detail-spec-label">Transmission</span>
+              <span className="car-detail-spec-value" style={{ textTransform: "capitalize" }}>{car.transmission}</span>
+            </div>
+          )}
+          {car.fuelType && (
+            <div className="car-detail-spec-card">
+              <span className="car-detail-spec-icon">⛽</span>
+              <span className="car-detail-spec-label">Fuel</span>
+              <span className="car-detail-spec-value" style={{ textTransform: "capitalize" }}>{car.fuelType}</span>
+            </div>
+          )}
+          <div className="car-detail-spec-card">
+            <span className="car-detail-spec-icon">📅</span>
+            <span className="car-detail-spec-label">Year</span>
+            <span className="car-detail-spec-value">{car.year}</span>
           </div>
         </div>
 

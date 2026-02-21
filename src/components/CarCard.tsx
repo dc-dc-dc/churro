@@ -11,6 +11,9 @@ export interface Car {
   range: string;
   location: string;
   features: string[];
+  image?: string;
+  transmission?: string;
+  fuelType?: string;
 }
 
 // Subtle brand-tinted dark gradients — no external image deps
@@ -35,16 +38,25 @@ export function CarCard({ car, onInteract }: CarCardProps) {
 
   return (
     <div className="car-card" onClick={() => onInteract?.(car)} style={{ cursor: onInteract ? "pointer" : undefined }}>
-      {/* Hero gradient panel */}
+      {/* Hero image / gradient panel */}
       <div className="car-image-wrapper">
-        <div
-          className="car-image-gradient"
-          style={{ background: gradient }}
-        >
-          <span className="car-model-overlay">
-            {car.make} {car.model}
-          </span>
-        </div>
+        {car.image ? (
+          <img
+            className="car-image-photo"
+            src={car.image}
+            alt={`${car.make} ${car.model}`}
+            loading="lazy"
+          />
+        ) : (
+          <div
+            className="car-image-gradient"
+            style={{ background: gradient }}
+          >
+            <span className="car-model-overlay">
+              {car.make} {car.model}
+            </span>
+          </div>
+        )}
         <div className="car-image-fade" />
         <span className="car-type-badge">{car.type}</span>
       </div>
