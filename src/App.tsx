@@ -146,7 +146,6 @@ export function App() {
       </nav>
 
       <div className="main-content">
-        <ChatBar messages={messages} isLoading={isLoading} onSend={sendMessage} />
         <RenderSpace
           view={view}
           onSuggestedPrompt={sendMessage}
@@ -155,6 +154,8 @@ export function App() {
           onBook={(car) => setView({ type: "car_detail", data: { car } })}
         />
       </div>
+
+      <ChatBar messages={messages} isLoading={isLoading} onSend={sendMessage} />
     </div>
   );
 }
