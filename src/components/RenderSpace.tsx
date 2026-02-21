@@ -1,4 +1,3 @@
-import { useState } from "react";
 import type { View } from "../App";
 import { CarCard, BRAND_GRADIENTS, DEFAULT_GRADIENT, type Car } from "./CarCard";
 import { CarComparison } from "./CarComparison";
@@ -153,11 +152,10 @@ function CarsView({ cars, onCarInteract }: { cars: Car[]; onCarInteract: (car: C
 
 // ─── Car detail view ───────────────────────────────────────────────────────
 function CarDetailView({ car, onBack }: { car: Car; onBack: () => void }) {
-  const [showBooking, setShowBooking] = useState(false);
   const gradient = BRAND_GRADIENTS[car.make] ?? DEFAULT_GRADIENT;
 
   return (
-    <div className={`car-detail-layout${showBooking ? " car-detail-layout--split" : ""}`}>
+    <div className="car-detail-layout car-detail-layout--split">
       {/* ── Car info panel ── */}
       <div className="car-detail-view">
         <div className="car-detail-nav">
@@ -241,48 +239,40 @@ function CarDetailView({ car, onBack }: { car: Car; onBack: () => void }) {
           </div>
         </div>
 
-        <button
-          className={`car-detail-reserve${showBooking ? " car-detail-reserve--active" : ""}`}
-          onClick={() => setShowBooking((v) => !v)}
-        >
-          {showBooking ? "Hide booking" : `Reserve · $${car.pricePerDay}/day`}
-        </button>
       </div>
 
       {/* ── Booking panel ── */}
-      {showBooking && (
-        <div className="car-booking-panel">
-          <div className="car-booking-panel-header">
-            <div>
-              <p className="empty-eyebrow" style={{ marginBottom: 4 }}>{car.make} {car.model}</p>
-              <h3 className="booking-title" style={{ marginBottom: 0 }}>Complete your booking</h3>
-            </div>
-            <span className="car-detail-price">${car.pricePerDay}<span className="car-price-unit">/day</span></span>
+      <div className="car-booking-panel">
+        <div className="car-booking-panel-header">
+          <div>
+            <p className="empty-eyebrow" style={{ marginBottom: 4 }}>{car.make} {car.model}</p>
+            <h3 className="booking-title" style={{ marginBottom: 0 }}>Complete your booking</h3>
           </div>
-
-          <div className="booking-card">
-            <div className="booking-section">
-              <label className="booking-label">Pickup location</label>
-              <input className="booking-input" defaultValue={car.location} placeholder="Enter pickup location" />
-            </div>
-            <div className="booking-row">
-              <div className="booking-section">
-                <label className="booking-label">Pickup date</label>
-                <input className="booking-input" type="date" />
-              </div>
-              <div className="booking-section">
-                <label className="booking-label">Return date</label>
-                <input className="booking-input" type="date" />
-              </div>
-            </div>
-            <div className="booking-section">
-              <label className="booking-label">Payment method</label>
-              <input className="booking-input" placeholder="Card number" />
-            </div>
-            <button className="booking-button">Reserve now</button>
-          </div>
+          <span className="car-detail-price">${car.pricePerDay}<span className="car-price-unit">/day</span></span>
         </div>
-      )}
+
+        <div className="booking-card">
+          <div className="booking-section">
+            <label className="booking-label">Pickup location</label>
+            <input className="booking-input" defaultValue={car.location} placeholder="Enter pickup location" />
+          </div>
+          <div className="booking-row">
+            <div className="booking-section">
+              <label className="booking-label">Pickup date</label>
+              <input className="booking-input" type="date" />
+            </div>
+            <div className="booking-section">
+              <label className="booking-label">Return date</label>
+              <input className="booking-input" type="date" />
+            </div>
+          </div>
+          <div className="booking-section">
+            <label className="booking-label">Payment method</label>
+            <input className="booking-input" placeholder="Card number" />
+          </div>
+          <button className="booking-button">Reserve now</button>
+        </div>
+      </div>
     </div>
   );
 }
