@@ -104,3 +104,5 @@ bun --hot ./index.ts
 ```
 
 For more information, read the Bun API docs in `node_modules/bun-types/docs/**.mdx`.
+
+This project is only focused on the front end ui component do not look at adding sign in features or anything like that
