@@ -670,6 +670,17 @@ body::after {
 .car-reviews { color: var(--c-text-muted); }
 .car-sep { color: var(--c-border-bright); margin: 0 3px; }
 .car-location { color: var(--c-text-secondary); font-size: 12px; }
+.car-pickup-badge {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--c-accent);
+  background: var(--c-accent-subtle);
+  border: 1px solid rgba(232, 160, 32, 0.18);
+  padding: 1px 7px;
+  border-radius: 100px;
+}
 
 .car-specs { display: flex; gap: 14px; }
 .car-spec {

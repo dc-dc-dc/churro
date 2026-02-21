@@ -10,6 +10,7 @@ export interface Car {
   seats: number;
   range: string;
   location: string;
+  pickupMethod?: string;
   features: string[];
   image?: string;
   transmission?: string;
@@ -85,6 +86,12 @@ export function CarCard({ car, onInteract }: CarCardProps) {
             <span className="car-reviews">({car.reviewCount})</span>
             <span className="car-sep">·</span>
             <span className="car-location">{car.location}</span>
+            {car.pickupMethod && (
+              <>
+                <span className="car-sep">·</span>
+                <span className="car-pickup-badge">{car.pickupMethod}</span>
+              </>
+            )}
           </div>
 
           <div className="car-specs">

@@ -12,14 +12,14 @@ type InventoryCar = {
   category: string; dailyRate: number; imageUrl: string;
   features: string[]; seats: number; transmission: string;
   fuelType: string; available: boolean; mileagePolicy: string;
-  location: string;
+  location: string; pickupMethod: "Downtown" | "Airport";
 };
 
 type FrontendCar = {
   id: string; make: string; model: string; year: number;
   pricePerDay: number; rating: number; reviewCount: number;
   type: string; seats: number; range: string;
-  location: string; features: string[];
+  location: string; pickupMethod: string; features: string[];
 };
 
 function pseudoRating(id: string): number {
@@ -52,6 +52,7 @@ function toFrontendCar(car: InventoryCar): FrontendCar {
     seats: car.seats,
     range: car.mileagePolicy,
     location: car.location,
+    pickupMethod: car.pickupMethod,
     features: car.features,
   };
 }
@@ -71,16 +72,20 @@ Daily rate ranges (in cents, e.g. 10000 = $100/day):
   electric: $85–$200/day | truck: $88–$135/day
 
 Seat options: 2, 4, 5, 7, 8, 9
-Locations: "Downtown" | "Airport"
+Cities (location field): New York NY | Los Angeles CA | Chicago IL | Houston TX | Miami FL |
+  Austin TX | Seattle WA | Denver CO | Nashville TN | Boston MA | Atlanta GA |
+  San Francisco CA | Portland OR | Phoenix AZ | Las Vegas NV
+Pickup method (pickupMethod field): "Downtown" | "Airport"
 Fuel types: gasoline | hybrid | electric
 Transmissions: automatic | manual (manual available in sports only)
 
 ## Filter keys — include these in view.data.filters to query inventory
-  "category"     — one of the 8 category strings above
-  "maxDailyRate" — max price in cents (e.g. 10000 = $100/day)
-  "minSeats"     — minimum number of seats
-  "features"     — array of feature keyword strings (any match, case-insensitive)
-  "location"     — "Downtown" or "Airport"
+  "category"      — one of the 8 category strings above
+  "maxDailyRate"  — max price in cents (e.g. 10000 = $100/day)
+  "minSeats"      — minimum number of seats
+  "features"      — array of feature keyword strings (any match, case-insensitive)
+  "location"      — city name substring, e.g. "Austin" or "New York" (case-insensitive match)
+  "pickupMethod"  — "Downtown" or "Airport"
 
 Respond ONLY with a valid JSON object — no markdown, no code fences — in this exact shape:
 {
@@ -114,7 +119,8 @@ STRONG signals (apply immediately as filters, show results):
   "premium" → luxury or sports category
 - Use case: "road trip" → suv/electric, "moving" → truck, "weekend" → sports, "commute" → economy
 - Seat needs: "6 people" → minSeats: 6, "family of 7" → minSeats: 7
-- Location preference: "airport pickup" → location: "Airport", "downtown" → location: "Downtown"
+- City preference: "in Austin" → location: "Austin", "New York" → location: "New York"
+- Pickup method: "airport pickup" → pickupMethod: "Airport", "downtown pickup" → pickupMethod: "Downtown"
 - Interaction signals: cars the user has clicked are strong preference indicators — weight them heavily
 
 WEAK / NO signal:
@@ -130,7 +136,7 @@ Decision logic:
 4. Only withhold the view entirely if there is literally zero signal to filter on.
 
 Examples:
-- "sporty car" → category: "sports" + "Any city preference?"
+- "sporty car" → category: "sports" + "Which city?"
 - "something fun for the weekend" → category: "sports" + "What's your rough budget?"
 - "I need an SUV" → category: "suv", no follow-up
 - "under $100 a day" → maxDailyRate: 10000 + "What kind of trip are you planning?"
@@ -212,11 +218,12 @@ const server = serve({
             // If Claude returned a "cars" view with filters, query the real inventory
             if (parsed.view?.type === "cars") {
               const filters = (parsed.view.data?.filters ?? {}) as {
-                category?: string;
+                category?: import("./types").CarCategory;
                 maxDailyRate?: number;
                 minSeats?: number;
                 features?: string[];
                 location?: string;
+                pickupMethod?: "Downtown" | "Airport";
                 available?: boolean;
               };
 

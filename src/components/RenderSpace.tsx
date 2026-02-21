@@ -27,6 +27,7 @@ function toCard(id: string): Car | undefined {
     seats: car.seats,
     range: car.mileagePolicy,
     location: car.location,
+    pickupMethod: car.pickupMethod,
     features: car.features,
     image: car.imageUrl,
     transmission: car.transmission,
