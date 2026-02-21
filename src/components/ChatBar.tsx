@@ -15,8 +15,9 @@ export function ChatBar({ messages, isLoading, onSend }: ChatBarProps) {
   const blurTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const isExpanded = hasFocus || isLoading;
+  const lastAssistantMessage = [...messages].reverse().find((m) => m.role === "assistant");
 
-  // Scroll history to bottom whenever messages change and panel is open
+  // Scroll history to bottom when messages change
   useEffect(() => {
     if (historyRef.current && isExpanded) {
       historyRef.current.scrollTop = historyRef.current.scrollHeight;
@@ -62,41 +63,48 @@ export function ChatBar({ messages, isLoading, onSend }: ChatBarProps) {
       ? "Where would you like to go? Ask me anything about cars…"
       : "Ask a follow-up…";
 
+  const hasAboveContent = isExpanded
+    ? messages.length > 0 || isLoading
+    : !!lastAssistantMessage;
+
   return (
     <div className={`chat-bar${isExpanded ? " chat-bar--expanded" : ""}`}>
       <div className="chat-bar-inner">
-        {/* Conversation history — slides in when expanded */}
-        <div className="chat-history-panel">
-          {(messages.length > 0 || isLoading) && (
-            <div className="chat-history" ref={historyRef}>
-              {messages.map((msg) => (
-                <div key={msg.id} className={`chat-message chat-message--${msg.role}`}>
-                  {msg.role === "assistant" && (
-                    <div className="assistant-avatar">
-                      <span>AI</span>
-                    </div>
-                  )}
-                  <div className="message-bubble">{msg.content}</div>
-                </div>
-              ))}
 
-              {isLoading && (
-                <div className="chat-message chat-message--assistant">
-                  <div className="assistant-avatar">
-                    <span>AI</span>
-                  </div>
-                  <div className="message-bubble typing-indicator">
-                    <span />
-                    <span />
-                    <span />
-                  </div>
+        {/* Full history — only when expanded */}
+        {isExpanded && (messages.length > 0 || isLoading) && (
+          <div className="chat-history" ref={historyRef}>
+            {messages.map((msg) => (
+              <div key={msg.id} className={`chat-message chat-message--${msg.role}`}>
+                {msg.role === "assistant" && (
+                  <div className="assistant-avatar"><span>AI</span></div>
+                )}
+                <div className="message-bubble">{msg.content}</div>
+              </div>
+            ))}
+            {isLoading && (
+              <div className="chat-message chat-message--assistant">
+                <div className="assistant-avatar"><span>AI</span></div>
+                <div className="message-bubble typing-indicator">
+                  <span /><span /><span />
                 </div>
-              )}
-            </div>
-          )}
-        </div>
+              </div>
+            )}
+          </div>
+        )}
 
-        {/* Input row */}
+        {/* Last assistant message preview — only when collapsed */}
+        {!isExpanded && lastAssistantMessage && (
+          <div className="chat-last-preview">
+            <div className="assistant-avatar assistant-avatar--sm"><span>AI</span></div>
+            <p className="chat-last-preview-text">{lastAssistantMessage.content}</p>
+          </div>
+        )}
+
+        {/* Divider between content and input */}
+        {hasAboveContent && <div className="chat-divider" />}
+
+        {/* Input — always visible */}
         <div className="chat-input-container">
           <div className="chat-input-wrapper">
             <textarea
@@ -117,7 +125,7 @@ export function ChatBar({ messages, isLoading, onSend }: ChatBarProps) {
                 {input.length === 0 ? "↵ to send" : `${input.length} chars`}
               </span>
               <button
-                onMouseDown={(e) => e.preventDefault()} // prevent blur before click
+                onMouseDown={(e) => e.preventDefault()}
                 onClick={handleSubmit}
                 disabled={!input.trim() || isLoading}
                 className="send-button"
@@ -131,6 +139,7 @@ export function ChatBar({ messages, isLoading, onSend }: ChatBarProps) {
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );
