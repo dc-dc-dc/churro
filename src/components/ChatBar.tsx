@@ -10,12 +10,23 @@ interface ChatBarProps {
 export function ChatBar({ messages, isLoading, onSend }: ChatBarProps) {
   const [input, setInput] = useState("");
   const [hasFocus, setHasFocus] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const historyRef = useRef<HTMLDivElement>(null);
-  const blurTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const isExpanded = hasFocus || isLoading;
-  const lastUserMessage = [...messages].reverse().find((m) => m.role === "user");
+  const lastAssistantMessage = [...messages].reverse().find((m) => m.role === "assistant");
+
+  // Collapse when clicking anywhere outside the chat bar
+  useEffect(() => {
+    const handleMouseDown = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setHasFocus(false);
+      }
+    };
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, []);
 
   // Scroll history to bottom when messages change
   useEffect(() => {
@@ -23,15 +34,6 @@ export function ChatBar({ messages, isLoading, onSend }: ChatBarProps) {
       historyRef.current.scrollTop = historyRef.current.scrollHeight;
     }
   }, [messages, isLoading, isExpanded]);
-
-  const handleFocus = () => {
-    if (blurTimerRef.current) clearTimeout(blurTimerRef.current);
-    setHasFocus(true);
-  };
-
-  const handleBlur = () => {
-    blurTimerRef.current = setTimeout(() => setHasFocus(false), 150);
-  };
 
   const handleSubmit = () => {
     const trimmed = input.trim();
@@ -65,10 +67,13 @@ export function ChatBar({ messages, isLoading, onSend }: ChatBarProps) {
 
   const hasAboveContent = isExpanded
     ? messages.length > 0 || isLoading
-    : !!lastUserMessage;
+    : !!lastAssistantMessage;
 
   return (
-    <div className={`chat-bar${isExpanded ? " chat-bar--expanded" : ""}`}>
+    <div
+      ref={containerRef}
+      className={`chat-bar${isExpanded ? " chat-bar--expanded" : ""}`}
+    >
       <div className="chat-bar-inner">
 
         {/* Full history — only when expanded */}
@@ -94,9 +99,9 @@ export function ChatBar({ messages, isLoading, onSend }: ChatBarProps) {
         )}
 
         {/* Last user message preview — only when collapsed */}
-        {!isExpanded && lastUserMessage && (
+        {!isExpanded && lastAssistantMessage && (
           <div className="chat-last-preview">
-            <p className="chat-last-preview-text">{lastUserMessage.content}</p>
+            <p className="chat-last-preview-text">{lastAssistantMessage.content}</p>
           </div>
         )}
 
@@ -112,8 +117,7 @@ export function ChatBar({ messages, isLoading, onSend }: ChatBarProps) {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               onInput={handleInput}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
+              onFocus={() => setHasFocus(true)}
               placeholder={placeholder}
               className="chat-input"
               rows={1}
@@ -124,7 +128,6 @@ export function ChatBar({ messages, isLoading, onSend }: ChatBarProps) {
                 {input.length === 0 ? "↵ to send" : `${input.length} chars`}
               </span>
               <button
-                onMouseDown={(e) => e.preventDefault()}
                 onClick={handleSubmit}
                 disabled={!input.trim() || isLoading}
                 className="send-button"
