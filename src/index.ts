@@ -1,39 +1,106 @@
 import { serve } from "bun";
 import index from "./index.html";
+import { ClaudeClient } from "./claude";
 
+// ── Car inventory ────────────────────────────────────────────────────────────
+// In a real app this would come from a database.
+const CAR_INVENTORY = [
+  { id: "1", make: "Tesla", model: "Model S Plaid", year: 2024, pricePerDay: 189, rating: 4.97, reviewCount: 234, type: "Electric", seats: 5, range: "396 mi", location: "San Francisco, CA", features: ["Autopilot", "Ludicrous Mode", "Premium Audio"] },
+  { id: "2", make: "Porsche", model: "911 Carrera", year: 2023, pricePerDay: 295, rating: 4.92, reviewCount: 87, type: "Sport", seats: 4, range: "22 MPG", location: "Los Angeles, CA", features: ["Sport Chrono", "Bose Audio", "PDK Gearbox"] },
+  { id: "3", make: "Mercedes-Benz", model: "G 63 AMG", year: 2024, pricePerDay: 350, rating: 4.88, reviewCount: 156, type: "SUV", seats: 5, range: "15 MPG", location: "Miami, FL", features: ["AMG Performance", "Panoramic Roof", "Burmester Audio"] },
+  { id: "4", make: "BMW", model: "M4 Competition", year: 2023, pricePerDay: 245, rating: 4.95, reviewCount: 112, type: "Sport", seats: 4, range: "19 MPG", location: "Chicago, IL", features: ["M Sport Diff", "Carbon Roof", "Harman Kardon"] },
+  { id: "5", make: "Rivian", model: "R1T", year: 2024, pricePerDay: 165, rating: 4.89, reviewCount: 203, type: "Electric Truck", seats: 5, range: "314 mi", location: "Denver, CO", features: ["Off-road Mode", "Camp Kitchen", "Gear Tunnel"] },
+  { id: "6", make: "Lamborghini", model: "Urus", year: 2023, pricePerDay: 495, rating: 4.94, reviewCount: 67, type: "Sport SUV", seats: 5, range: "14 MPG", location: "Las Vegas, NV", features: ["V8 Twin-Turbo", "Carbon Ceramic Brakes", "Sport Exhaust"] },
+];
+
+const BASE_SYSTEM_PROMPT = `You are a helpful AI assistant for a premium car rental platform called Churro. Help users find the perfect car.
+
+Available inventory:
+${JSON.stringify(CAR_INVENTORY, null, 2)}
+
+Respond ONLY with a valid JSON object — no markdown, no code fences — in this exact shape:
+{
+  "message": "Your conversational reply to the user",
+  "view": { "type": "cars", "data": { "cars": [ /* matching car objects */ ] } }
+}
+
+View rules:
+- "cars"    → show a car grid; include "data.cars" with matching inventory objects.
+- "booking" → show booking form; include optional "data": { location, startDate, endDate }.
+- "empty"   → return to welcome screen.
+- Omit "view" entirely for purely conversational replies.
+
+Select cars that genuinely match the user's request. Briefly explain why you chose them.
+Factor in any interaction signals the user has generated (cars they clicked) as interest indicators.`;
+
+// ── Claude client ────────────────────────────────────────────────────────────
+let claude: ClaudeClient | null = null;
+try {
+  claude = new ClaudeClient();
+} catch {
+  console.warn("[claude] ANTHROPIC_API_KEY not set — /api/chat will return errors");
+}
+
+// ── Server ───────────────────────────────────────────────────────────────────
 const server = serve({
   routes: {
-    // Serve index.html for all unmatched routes.
     "/*": index,
 
-    "/api/hello": {
-      async GET(req) {
-        return Response.json({
-          message: "Hello, world!",
-          method: "GET",
-        });
-      },
-      async PUT(req) {
-        return Response.json({
-          message: "Hello, world!",
-          method: "PUT",
-        });
-      },
-    },
+    "/api/chat": {
+      async POST(req) {
+        if (!claude) {
+          return Response.json({ message: "API key not configured." }, { status: 503 });
+        }
 
-    "/api/hello/:name": async req => {
-      const name = req.params.name;
-      return Response.json({
-        message: `Hello, ${name}!`,
-      });
+        const { message, history = [], interactions = [] } = await req.json() as {
+          message: string;
+          history: Array<{ role: "user" | "assistant"; content: string }>;
+          interactions: Array<{ type: string; car: Record<string, unknown>; timestamp: string }>;
+        };
+
+        // Append interaction signals to the system prompt so Claude has context
+        const interactionLines = interactions
+          .slice(-10)
+          .map((i) => `- Viewed/clicked: ${i.car.year} ${i.car.make} ${i.car.model} ($${i.car.pricePerDay}/day, ${i.car.type}, ${i.car.location})`);
+
+        const systemPrompt = interactionLines.length
+          ? `${BASE_SYSTEM_PROMPT}\n\nUser's recent on-page interactions (interest signals):\n${interactionLines.join("\n")}`
+          : BASE_SYSTEM_PROMPT;
+
+        try {
+          const results = await claude.submitAndWait([
+            claude.makeRequest("chat-message", message, {
+              system: systemPrompt,
+              history,
+              maxTokens: 1024,
+            }),
+          ]);
+
+          const result = results[0];
+          if (!result || result.result.type !== "succeeded") {
+            return Response.json({ message: "Something went wrong. Please try again." }, { status: 500 });
+          }
+
+          const text = result.result.message.content[0]?.text ?? "";
+
+          try {
+            // Claude should return raw JSON, but strip any accidental markdown fences
+            const jsonMatch = text.match(/\{[\s\S]*\}/);
+            const parsed = JSON.parse(jsonMatch?.[0] ?? text);
+            return Response.json(parsed);
+          } catch {
+            return Response.json({ message: text });
+          }
+        } catch (err) {
+          console.error("[api/chat]", err);
+          return Response.json({ message: "I'm having trouble connecting. Please try again." }, { status: 500 });
+        }
+      },
     },
   },
 
   development: process.env.NODE_ENV !== "production" && {
-    // Enable browser hot reloading in development
     hmr: true,
-
-    // Echo console logs from the browser to the server
     console: true,
   },
 });

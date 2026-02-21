@@ -68,13 +68,17 @@ export class ClaudeClient {
     this.model = model;
   }
 
-  private get headers(): Record<string, string> {
+  private get baseHeaders(): Record<string, string> {
     return {
       "Content-Type": "application/json",
       "x-api-key": this.apiKey,
       "anthropic-version": "2023-06-01",
-      "anthropic-beta": "message-batches-2024-09-24",
     };
+  }
+
+  // Batch API requires its own beta header separate from the base headers
+  private get batchHeaders(): Record<string, string> {
+    return { ...this.baseHeaders, "anthropic-beta": "message-batches-2024-09-24" };
   }
 
   /** Create a message batch and return its initial status. */

@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import "./index.css";
 import { ChatBar } from "./components/ChatBar";
 import { RenderSpace } from "./components/RenderSpace";
+import type { Car } from "./components/CarCard";
 
 export type Message = {
   id: string;
@@ -15,10 +16,17 @@ export type View = {
   data?: any;
 };
 
+export type Interaction = {
+  type: "car_click";
+  car: Car;
+  timestamp: string; // ISO string — safe to serialise in JSON
+};
+
 export function App() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [view, setView] = useState<View>({ type: "empty" });
   const [isLoading, setIsLoading] = useState(false);
+  const [interactions, setInteractions] = useState<Interaction[]>([]);
   const [theme, setTheme] = useState<"dark" | "light">(() =>
     window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"
   );
@@ -28,6 +36,14 @@ export function App() {
   }, [theme]);
 
   const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
+
+  const handleCarInteract = useCallback((car: Car) => {
+    setInteractions((prev) => {
+      // Keep the 10 most recent signals (duplicates allowed — repeated clicks = stronger interest)
+      const next: Interaction = { type: "car_click", car, timestamp: new Date().toISOString() };
+      return [...prev.slice(-9), next];
+    });
+  }, []);
 
   const sendMessage = useCallback(
     async (content: string) => {
@@ -48,6 +64,7 @@ export function App() {
           body: JSON.stringify({
             message: content,
             history: messages.map((m) => ({ role: m.role, content: m.content })),
+            interactions,
           }),
         });
 
@@ -79,7 +96,7 @@ export function App() {
         setIsLoading(false);
       }
     },
-    [messages]
+    [messages, interactions]
   );
 
   return (
@@ -130,7 +147,7 @@ export function App() {
 
       <div className="main-content">
         <ChatBar messages={messages} isLoading={isLoading} onSend={sendMessage} />
-        <RenderSpace view={view} onSuggestedPrompt={sendMessage} />
+        <RenderSpace view={view} onSuggestedPrompt={sendMessage} onCarInteract={handleCarInteract} />
       </div>
     </div>
   );

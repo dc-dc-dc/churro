@@ -27,13 +27,14 @@ const DEFAULT_GRADIENT = "linear-gradient(145deg, #0d1120 0%, #1a2038 40%, #0d11
 
 interface CarCardProps {
   car: Car;
+  onInteract?: (car: Car) => void;
 }
 
-export function CarCard({ car }: CarCardProps) {
+export function CarCard({ car, onInteract }: CarCardProps) {
   const gradient = BRAND_GRADIENTS[car.make] ?? DEFAULT_GRADIENT;
 
   return (
-    <div className="car-card">
+    <div className="car-card" onClick={() => onInteract?.(car)} style={{ cursor: onInteract ? "pointer" : undefined }}>
       {/* Hero gradient panel */}
       <div className="car-image-wrapper">
         <div
@@ -94,7 +95,12 @@ export function CarCard({ car }: CarCardProps) {
           </div>
         </div>
 
-        <button className="car-book-button">Book this car</button>
+        <button
+          className="car-book-button"
+          onClick={(e) => { e.stopPropagation(); onInteract?.(car); }}
+        >
+          Book this car
+        </button>
       </div>
     </div>
   );

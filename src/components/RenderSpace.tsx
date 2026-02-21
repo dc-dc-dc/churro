@@ -74,17 +74,18 @@ const SUGGESTED_PROMPTS = [
 interface RenderSpaceProps {
   view: View;
   onSuggestedPrompt: (prompt: string) => void;
+  onCarInteract: (car: Car) => void;
 }
 
 // ─── Root component ────────────────────────────────────────────────────────
-export function RenderSpace({ view, onSuggestedPrompt }: RenderSpaceProps) {
+export function RenderSpace({ view, onSuggestedPrompt, onCarInteract }: RenderSpaceProps) {
   return (
     <main className="render-space">
       {view.type === "empty" && (
-        <EmptyView onSuggestedPrompt={onSuggestedPrompt} />
+        <EmptyView onSuggestedPrompt={onSuggestedPrompt} onCarInteract={onCarInteract} />
       )}
       {view.type === "cars" && (
-        <CarsView cars={(view.data?.cars as Car[]) ?? FEATURED_CARS} />
+        <CarsView cars={(view.data?.cars as Car[]) ?? FEATURED_CARS} onCarInteract={onCarInteract} />
       )}
       {view.type === "map" && <MapView data={view.data} />}
       {view.type === "booking" && <BookingView data={view.data} />}
@@ -93,7 +94,13 @@ export function RenderSpace({ view, onSuggestedPrompt }: RenderSpaceProps) {
 }
 
 // ─── Empty / welcome view ──────────────────────────────────────────────────
-function EmptyView({ onSuggestedPrompt }: { onSuggestedPrompt: (p: string) => void }) {
+function EmptyView({
+  onSuggestedPrompt,
+  onCarInteract,
+}: {
+  onSuggestedPrompt: (p: string) => void;
+  onCarInteract: (car: Car) => void;
+}) {
   return (
     <div className="empty-view">
       <div className="empty-hero">
@@ -127,7 +134,7 @@ function EmptyView({ onSuggestedPrompt }: { onSuggestedPrompt: (p: string) => vo
         </div>
         <div className="cars-grid">
           {FEATURED_CARS.map((car) => (
-            <CarCard key={car.id} car={car} />
+            <CarCard key={car.id} car={car} onInteract={onCarInteract} />
           ))}
         </div>
       </div>
@@ -136,7 +143,7 @@ function EmptyView({ onSuggestedPrompt }: { onSuggestedPrompt: (p: string) => vo
 }
 
 // ─── Cars list view ────────────────────────────────────────────────────────
-function CarsView({ cars }: { cars: Car[] }) {
+function CarsView({ cars, onCarInteract }: { cars: Car[]; onCarInteract: (car: Car) => void }) {
   return (
     <div className="cars-view">
       <div className="view-header">
@@ -144,7 +151,7 @@ function CarsView({ cars }: { cars: Car[] }) {
       </div>
       <div className="cars-grid">
         {cars.map((car) => (
-          <CarCard key={car.id} car={car} />
+          <CarCard key={car.id} car={car} onInteract={onCarInteract} />
         ))}
       </div>
     </div>
