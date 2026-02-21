@@ -50,46 +50,48 @@ export function CarCard({ car }: CarCardProps) {
 
       {/* Card body */}
       <div className="car-content">
-        <div className="car-header">
-          <div className="car-name-group">
-            <span className="car-year">{car.year}</span>
-            <h4 className="car-name">
-              {car.make} {car.model}
-            </h4>
+        <div className="car-body">
+          <div className="car-header">
+            <div className="car-name-group">
+              <span className="car-year">{car.year}</span>
+              <h4 className="car-name">
+                {car.make} {car.model}
+              </h4>
+            </div>
+            <div className="car-price-group">
+              <span className="car-price">${car.pricePerDay}</span>
+              <span className="car-price-unit">/day</span>
+            </div>
           </div>
-          <div className="car-price-group">
-            <span className="car-price">${car.pricePerDay}</span>
-            <span className="car-price-unit">/day</span>
-          </div>
-        </div>
 
-        <div className="car-meta">
-          <span className="car-rating">
-            <span className="rating-star">★</span>
-            {car.rating.toFixed(2)}
-          </span>
-          <span className="car-reviews">({car.reviewCount})</span>
-          <span className="car-sep">·</span>
-          <span className="car-location">{car.location}</span>
-        </div>
-
-        <div className="car-specs">
-          <span className="car-spec">
-            <span className="spec-icon">👤</span>
-            {car.seats} seats
-          </span>
-          <span className="car-spec">
-            <span className="spec-icon">⚡</span>
-            {car.range}
-          </span>
-        </div>
-
-        <div className="car-features">
-          {car.features.slice(0, 3).map((f) => (
-            <span key={f} className="feature-tag">
-              {f}
+          <div className="car-meta">
+            <span className="car-rating">
+              <span className="rating-star">★</span>
+              {car.rating.toFixed(2)}
             </span>
-          ))}
+            <span className="car-reviews">({car.reviewCount})</span>
+            <span className="car-sep">·</span>
+            <span className="car-location">{car.location}</span>
+          </div>
+
+          <div className="car-specs">
+            <span className="car-spec">
+              <span className="spec-icon">👤</span>
+              {car.seats} seats
+            </span>
+            <span className="car-spec">
+              <span className="spec-icon">⚡</span>
+              {car.range}
+            </span>
+          </div>
+
+          <div className="car-features">
+            {car.features.slice(0, 3).map((f) => (
+              <span key={f} className="feature-tag">
+                {f}
+              </span>
+            ))}
+          </div>
         </div>
 
         <button className="car-book-button">Book this car</button>

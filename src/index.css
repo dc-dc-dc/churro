@@ -508,6 +508,8 @@ body::after {
   overflow: hidden;
   transition: transform 0.22s, border-color 0.22s, box-shadow 0.22s;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
 }
 .car-card:hover {
   transform: translateY(-5px);
@@ -562,6 +564,12 @@ body::after {
 
 .car-content {
   padding: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.car-body {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -623,7 +631,7 @@ body::after {
 }
 
 .car-book-button {
-  margin-top: 4px;
+  margin-top: 12px;
   width: 100%;
   padding: 10px;
   background: transparent;
