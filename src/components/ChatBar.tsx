@@ -15,7 +15,7 @@ export function ChatBar({ messages, isLoading, onSend }: ChatBarProps) {
   const blurTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const isExpanded = hasFocus || isLoading;
-  const lastAssistantMessage = [...messages].reverse().find((m) => m.role === "assistant");
+  const lastUserMessage = [...messages].reverse().find((m) => m.role === "user");
 
   // Scroll history to bottom when messages change
   useEffect(() => {
@@ -65,7 +65,7 @@ export function ChatBar({ messages, isLoading, onSend }: ChatBarProps) {
 
   const hasAboveContent = isExpanded
     ? messages.length > 0 || isLoading
-    : !!lastAssistantMessage;
+    : !!lastUserMessage;
 
   return (
     <div className={`chat-bar${isExpanded ? " chat-bar--expanded" : ""}`}>
@@ -93,11 +93,10 @@ export function ChatBar({ messages, isLoading, onSend }: ChatBarProps) {
           </div>
         )}
 
-        {/* Last assistant message preview — only when collapsed */}
-        {!isExpanded && lastAssistantMessage && (
+        {/* Last user message preview — only when collapsed */}
+        {!isExpanded && lastUserMessage && (
           <div className="chat-last-preview">
-            <div className="assistant-avatar assistant-avatar--sm"><span>AI</span></div>
-            <p className="chat-last-preview-text">{lastAssistantMessage.content}</p>
+            <p className="chat-last-preview-text">{lastUserMessage.content}</p>
           </div>
         )}
 

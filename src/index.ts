@@ -72,9 +72,7 @@ Daily rate ranges (in cents, e.g. 10000 = $100/day):
   electric: $85–$200/day | truck: $88–$135/day
 
 Seat options: 2, 4, 5, 7, 8, 9
-Cities (location field): New York NY | Los Angeles CA | Chicago IL | Houston TX | Miami FL |
-  Austin TX | Seattle WA | Denver CO | Nashville TN | Boston MA | Atlanta GA |
-  San Francisco CA | Portland OR | Phoenix AZ | Las Vegas NV
+Cities (location field): New York NY | Los Angeles CA
 Pickup method (pickupMethod field): "Downtown" | "Airport"
 Fuel types: gasoline | hybrid | electric
 Transmissions: automatic | manual (manual available in sports only)
@@ -84,7 +82,7 @@ Transmissions: automatic | manual (manual available in sports only)
   "maxDailyRate"  — max price in cents (e.g. 10000 = $100/day)
   "minSeats"      — minimum number of seats
   "features"      — array of feature keyword strings (any match, case-insensitive)
-  "location"      — city name substring, e.g. "Austin" or "New York" (case-insensitive match)
+  "location"      — "New York" or "Los Angeles" (case-insensitive match)
   "pickupMethod"  — "Downtown" or "Airport"
 
 Respond ONLY with a valid JSON object — no markdown, no code fences — in this exact shape:
@@ -119,7 +117,7 @@ STRONG signals (apply immediately as filters, show results):
   "premium" → luxury or sports category
 - Use case: "road trip" → suv/electric, "moving" → truck, "weekend" → sports, "commute" → economy
 - Seat needs: "6 people" → minSeats: 6, "family of 7" → minSeats: 7
-- City preference: "in Austin" → location: "Austin", "New York" → location: "New York"
+- City preference: "New York" → location: "New York", "California" or "LA" → location: "Los Angeles"
 - Pickup method: "airport pickup" → pickupMethod: "Airport", "downtown pickup" → pickupMethod: "Downtown"
 - Interaction signals: cars the user has clicked are strong preference indicators — weight them heavily
 

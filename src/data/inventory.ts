@@ -120,7 +120,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Chicago, IL",
+    location: "New York, NY",
     pickupMethod: "Downtown",
   },
   {
@@ -137,7 +137,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Houston, TX",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -154,7 +154,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Miami, FL",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -171,7 +171,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Austin, TX",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -188,7 +188,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Seattle, WA",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -205,7 +205,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Denver, CO",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -222,7 +222,7 @@ export const carInventory: Car[] = [
     fuelType: "hybrid",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Nashville, TN",
+    location: "New York, NY",
     pickupMethod: "Downtown",
   },
   {
@@ -239,7 +239,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Boston, MA",
+    location: "New York, NY",
     pickupMethod: "Airport",
   },
   {
@@ -256,7 +256,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Atlanta, GA",
+    location: "New York, NY",
     pickupMethod: "Downtown",
   },
   {
@@ -273,7 +273,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "San Francisco, CA",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -290,7 +290,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Phoenix, AZ",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
 
@@ -343,7 +343,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Chicago, IL",
+    location: "New York, NY",
     pickupMethod: "Downtown",
   },
   {
@@ -360,7 +360,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Houston, TX",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -377,7 +377,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Miami, FL",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -394,7 +394,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Austin, TX",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -411,7 +411,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Seattle, WA",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -428,7 +428,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Denver, CO",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -445,7 +445,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Nashville, TN",
+    location: "New York, NY",
     pickupMethod: "Downtown",
   },
   {
@@ -462,7 +462,7 @@ export const carInventory: Car[] = [
     fuelType: "hybrid",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Boston, MA",
+    location: "New York, NY",
     pickupMethod: "Airport",
   },
   {
@@ -479,7 +479,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Atlanta, GA",
+    location: "New York, NY",
     pickupMethod: "Downtown",
   },
   {
@@ -496,7 +496,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "San Francisco, CA",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -513,7 +513,7 @@ export const carInventory: Car[] = [
     fuelType: "hybrid",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Portland, OR",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
 
@@ -532,7 +532,7 @@ export const carInventory: Car[] = [
     fuelType: "hybrid",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Denver, CO",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -549,7 +549,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "200 miles/day",
-    location: "Chicago, IL",
+    location: "New York, NY",
     pickupMethod: "Airport",
   },
   {
@@ -566,7 +566,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "150 miles/day",
-    location: "Houston, TX",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -583,7 +583,7 @@ export const carInventory: Car[] = [
     fuelType: "hybrid",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Seattle, WA",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -617,7 +617,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "200 miles/day",
-    location: "Phoenix, AZ",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -634,7 +634,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "150 miles/day",
-    location: "Denver, CO",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -651,7 +651,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "200 miles/day",
-    location: "Nashville, TN",
+    location: "New York, NY",
     pickupMethod: "Airport",
   },
   {
@@ -668,7 +668,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Boston, MA",
+    location: "New York, NY",
     pickupMethod: "Downtown",
   },
   {
@@ -685,7 +685,7 @@ export const carInventory: Car[] = [
     fuelType: "hybrid",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Austin, TX",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -702,7 +702,7 @@ export const carInventory: Car[] = [
     fuelType: "hybrid",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Atlanta, GA",
+    location: "New York, NY",
     pickupMethod: "Downtown",
   },
   {
@@ -719,7 +719,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Portland, OR",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -753,7 +753,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "150 miles/day",
-    location: "Miami, FL",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -770,7 +770,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "150 miles/day",
-    location: "Phoenix, AZ",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -787,7 +787,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "200 miles/day",
-    location: "Las Vegas, NV",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -804,7 +804,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "200 miles/day",
-    location: "San Francisco, CA",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
 
@@ -857,7 +857,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "150 miles/day",
-    location: "San Francisco, CA",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -874,7 +874,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "150 miles/day",
-    location: "Chicago, IL",
+    location: "New York, NY",
     pickupMethod: "Airport",
   },
   {
@@ -891,7 +891,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Miami, FL",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -942,7 +942,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "100 miles/day",
-    location: "San Francisco, CA",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -959,7 +959,7 @@ export const carInventory: Car[] = [
     fuelType: "hybrid",
     available: true,
     mileagePolicy: "100 miles/day",
-    location: "Miami, FL",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -976,7 +976,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "100 miles/day",
-    location: "Chicago, IL",
+    location: "New York, NY",
     pickupMethod: "Downtown",
   },
   {
@@ -993,7 +993,7 @@ export const carInventory: Car[] = [
     fuelType: "hybrid",
     available: true,
     mileagePolicy: "150 miles/day",
-    location: "Seattle, WA",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -1010,7 +1010,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "100 miles/day",
-    location: "Las Vegas, NV",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -1027,7 +1027,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "150 miles/day",
-    location: "Nashville, TN",
+    location: "New York, NY",
     pickupMethod: "Airport",
   },
 
@@ -1046,7 +1046,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "100 miles/day",
-    location: "Miami, FL",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -1080,7 +1080,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "75 miles/day",
-    location: "Las Vegas, NV",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -1114,7 +1114,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "100 miles/day",
-    location: "Miami, FL",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -1131,7 +1131,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "100 miles/day",
-    location: "Austin, TX",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -1148,7 +1148,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "100 miles/day",
-    location: "San Francisco, CA",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -1199,7 +1199,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "75 miles/day",
-    location: "San Francisco, CA",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -1216,7 +1216,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "100 miles/day",
-    location: "Atlanta, GA",
+    location: "New York, NY",
     pickupMethod: "Downtown",
   },
   {
@@ -1233,7 +1233,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "100 miles/day",
-    location: "Portland, OR",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -1250,7 +1250,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "100 miles/day",
-    location: "Houston, TX",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
 
@@ -1269,7 +1269,7 @@ export const carInventory: Car[] = [
     fuelType: "hybrid",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Chicago, IL",
+    location: "New York, NY",
     pickupMethod: "Airport",
   },
   {
@@ -1286,7 +1286,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Houston, TX",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -1320,7 +1320,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Atlanta, GA",
+    location: "New York, NY",
     pickupMethod: "Downtown",
   },
   {
@@ -1337,7 +1337,7 @@ export const carInventory: Car[] = [
     fuelType: "hybrid",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Denver, CO",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -1354,7 +1354,7 @@ export const carInventory: Car[] = [
     fuelType: "hybrid",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Nashville, TN",
+    location: "New York, NY",
     pickupMethod: "Downtown",
   },
 
@@ -1373,7 +1373,7 @@ export const carInventory: Car[] = [
     fuelType: "electric",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "San Francisco, CA",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -1390,7 +1390,7 @@ export const carInventory: Car[] = [
     fuelType: "electric",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Seattle, WA",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -1424,7 +1424,7 @@ export const carInventory: Car[] = [
     fuelType: "electric",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "San Francisco, CA",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -1441,7 +1441,7 @@ export const carInventory: Car[] = [
     fuelType: "electric",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Austin, TX",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -1458,7 +1458,7 @@ export const carInventory: Car[] = [
     fuelType: "electric",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Denver, CO",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -1509,7 +1509,7 @@ export const carInventory: Car[] = [
     fuelType: "electric",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "San Francisco, CA",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -1526,7 +1526,7 @@ export const carInventory: Car[] = [
     fuelType: "electric",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Seattle, WA",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -1543,7 +1543,7 @@ export const carInventory: Car[] = [
     fuelType: "electric",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Portland, OR",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -1560,7 +1560,7 @@ export const carInventory: Car[] = [
     fuelType: "electric",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Chicago, IL",
+    location: "New York, NY",
     pickupMethod: "Airport",
   },
   {
@@ -1577,7 +1577,7 @@ export const carInventory: Car[] = [
     fuelType: "electric",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Boston, MA",
+    location: "New York, NY",
     pickupMethod: "Downtown",
   },
 
@@ -1596,7 +1596,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "150 miles/day",
-    location: "Austin, TX",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -1613,7 +1613,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "150 miles/day",
-    location: "Houston, TX",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -1630,7 +1630,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "150 miles/day",
-    location: "Denver, CO",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -1647,7 +1647,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "150 miles/day",
-    location: "Seattle, WA",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -1664,7 +1664,7 @@ export const carInventory: Car[] = [
     fuelType: "hybrid",
     available: true,
     mileagePolicy: "150 miles/day",
-    location: "Phoenix, AZ",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -1681,7 +1681,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "150 miles/day",
-    location: "Nashville, TN",
+    location: "New York, NY",
     pickupMethod: "Airport",
   },
   {
@@ -1698,7 +1698,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "150 miles/day",
-    location: "Portland, OR",
+    location: "Los Angeles, CA",
     pickupMethod: "Downtown",
   },
   {
@@ -1715,7 +1715,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "150 miles/day",
-    location: "Denver, CO",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -1732,7 +1732,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "150 miles/day",
-    location: "Atlanta, GA",
+    location: "New York, NY",
     pickupMethod: "Downtown",
   },
   {
@@ -1749,7 +1749,7 @@ export const carInventory: Car[] = [
     fuelType: "electric",
     available: true,
     mileagePolicy: "200 miles/day",
-    location: "Austin, TX",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
   {
@@ -1766,7 +1766,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "Unlimited",
-    location: "Chicago, IL",
+    location: "New York, NY",
     pickupMethod: "Downtown",
   },
   {
@@ -1783,7 +1783,7 @@ export const carInventory: Car[] = [
     fuelType: "gasoline",
     available: true,
     mileagePolicy: "150 miles/day",
-    location: "Phoenix, AZ",
+    location: "Los Angeles, CA",
     pickupMethod: "Airport",
   },
 ];

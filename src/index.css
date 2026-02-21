@@ -285,22 +285,12 @@ body::after {
 /* Last-message preview — collapsed state */
 .chat-last-preview {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 20px 10px 16px;
+  justify-content: flex-end;
+  padding: 10px 18px 10px 40px;
   animation: msgIn 0.18s ease-out;
 }
 
-.assistant-avatar--sm {
-  width: 22px;
-  height: 22px;
-  border-radius: 6px;
-  flex-shrink: 0;
-}
-.assistant-avatar--sm span { font-size: 9px; }
-
 .chat-last-preview-text {
-  flex: 1;
   font-size: 13px;
   color: var(--c-text-secondary);
   white-space: nowrap;
@@ -308,6 +298,11 @@ body::after {
   text-overflow: ellipsis;
   margin: 0;
   line-height: 1.4;
+  max-width: 100%;
+  padding: 6px 12px;
+  background: rgba(232, 160, 32, 0.07);
+  border: 1px solid rgba(232, 160, 32, 0.12);
+  border-radius: 10px 10px 2px 10px;
 }
 
 /* Divider between content and input */
