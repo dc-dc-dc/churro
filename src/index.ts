@@ -68,20 +68,11 @@ const server = serve({
           : BASE_SYSTEM_PROMPT;
 
         try {
-          const results = await claude.submitAndWait([
-            claude.makeRequest("chat-message", message, {
-              system: systemPrompt,
-              history,
-              maxTokens: 1024,
-            }),
-          ]);
-
-          const result = results[0];
-          if (!result || result.result.type !== "succeeded") {
-            return Response.json({ message: "Something went wrong. Please try again." }, { status: 500 });
-          }
-
-          const text = result.result.message.content[0]?.text ?? "";
+          const text = await claude.chat(message, {
+            system: systemPrompt,
+            history,
+            maxTokens: 1024,
+          });
 
           try {
             // Claude should return raw JSON, but strip any accidental markdown fences

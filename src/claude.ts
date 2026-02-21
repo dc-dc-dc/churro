@@ -81,11 +81,38 @@ export class ClaudeClient {
     return { ...this.baseHeaders, "anthropic-beta": "message-batches-2024-09-24" };
   }
 
+  /**
+   * Send a single message and return the assistant's text response.
+   * Use this for real-time interactions — it completes in a single round-trip.
+   */
+  async chat(
+    userMessage: string,
+    options: {
+      system?: string;
+      maxTokens?: number;
+      history?: MessageParam[];
+    } = {},
+  ): Promise<string> {
+    const res = await fetch(`${ANTHROPIC_API_BASE}/messages`, {
+      method: "POST",
+      headers: this.baseHeaders,
+      body: JSON.stringify({
+        model: this.model,
+        max_tokens: options.maxTokens ?? 1024,
+        ...(options.system ? { system: options.system } : {}),
+        messages: [...(options.history ?? []), { role: "user", content: userMessage }],
+      }),
+    });
+    if (!res.ok) throw new Error(`chat failed: ${res.status} ${await res.text()}`);
+    const data = await res.json() as { content: Array<{ type: string; text: string }> };
+    return data.content[0]?.text ?? "";
+  }
+
   /** Create a message batch and return its initial status. */
   async createBatch(requests: BatchRequest[]): Promise<BatchStatus> {
     const res = await fetch(`${ANTHROPIC_API_BASE}/messages/batches`, {
       method: "POST",
-      headers: this.headers,
+      headers: this.batchHeaders,
       body: JSON.stringify({ requests }),
     });
     if (!res.ok) throw new Error(`createBatch failed: ${res.status} ${await res.text()}`);
@@ -95,7 +122,7 @@ export class ClaudeClient {
   /** Fetch the current status of a batch. */
   async getBatchStatus(batchId: string): Promise<BatchStatus> {
     const res = await fetch(`${ANTHROPIC_API_BASE}/messages/batches/${batchId}`, {
-      headers: this.headers,
+      headers: this.batchHeaders,
     });
     if (!res.ok) throw new Error(`getBatchStatus failed: ${res.status} ${await res.text()}`);
     return res.json() as Promise<BatchStatus>;
@@ -104,7 +131,7 @@ export class ClaudeClient {
   /** Download and parse JSONL results once a batch has ended. */
   async getBatchResults(batchId: string): Promise<BatchResult[]> {
     const res = await fetch(`${ANTHROPIC_API_BASE}/messages/batches/${batchId}/results`, {
-      headers: this.headers,
+      headers: this.batchHeaders,
     });
     if (!res.ok) throw new Error(`getBatchResults failed: ${res.status} ${await res.text()}`);
     const text = await res.text();
