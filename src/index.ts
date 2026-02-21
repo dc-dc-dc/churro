@@ -20,6 +20,7 @@ type FrontendCar = {
   pricePerDay: number; rating: number; reviewCount: number;
   type: string; seats: number; range: string;
   location: string; pickupMethod: string; features: string[];
+  image: string; transmission: string; fuelType: string;
 };
 
 function pseudoRating(id: string): number {
@@ -54,6 +55,9 @@ function toFrontendCar(car: InventoryCar): FrontendCar {
     location: car.location,
     pickupMethod: car.pickupMethod,
     features: car.features,
+    image: car.imageUrl,
+    transmission: car.transmission,
+    fuelType: car.fuelType,
   };
 }
 

@@ -151,7 +151,7 @@ export function App() {
           onSuggestedPrompt={sendMessage}
           onCarInteract={handleCarInteract}
           onBack={() => setView({ type: "empty" })}
-          onBook={(car) => setView({ type: "car_detail", data: { car } })}
+          onBook={(car) => setView({ type: "booking", data: { car } })}
         />
       </div>
 

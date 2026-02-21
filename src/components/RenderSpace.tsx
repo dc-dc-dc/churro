@@ -75,13 +75,15 @@ export function RenderSpace({ view, onSuggestedPrompt, onCarInteract, onBack, on
         <CarsView cars={(view.data?.cars as Car[]) ?? FEATURED_CARS} onCarInteract={onCarInteract} />
       )}
       {view.type === "car_detail" && view.data?.car && (
-        <CarDetailView car={view.data.car as Car} onBack={onBack} />
+        <CarDetailView car={view.data.car as Car} onBack={onBack} onBook={onBook} />
       )}
       {view.type === "comparison" && view.data?.cars?.length > 0 && (
         <CarComparison cars={view.data.cars as Car[]} onBack={onBack} onBook={onBook} />
       )}
       {view.type === "map" && <MapView data={view.data} />}
-      {view.type === "booking" && <BookingView data={view.data} onBack={onBack} />}
+      {view.type === "booking" && (
+        <BookingView car={view.data?.car as Car | undefined} data={view.data} onBack={onBack} />
+      )}
     </main>
   );
 }
@@ -152,7 +154,7 @@ function CarsView({ cars, onCarInteract }: { cars: Car[]; onCarInteract: (car: C
 }
 
 // ─── Car detail view ───────────────────────────────────────────────────────
-function CarDetailView({ car, onBack }: { car: Car; onBack: () => void }) {
+function CarDetailView({ car, onBack, onBook }: { car: Car; onBack: () => void; onBook: (car: Car) => void }) {
   const gradient = BRAND_GRADIENTS[car.make] ?? DEFAULT_GRADIENT;
 
   return (
@@ -271,7 +273,7 @@ function CarDetailView({ car, onBack }: { car: Car; onBack: () => void }) {
             <label className="booking-label">Payment method</label>
             <input className="booking-input" placeholder="Card number" />
           </div>
-          <button className="booking-button">Reserve now</button>
+          <button className="booking-button" onClick={() => onBook(car)}>Reserve now</button>
         </div>
       </div>
     </div>
@@ -293,7 +295,130 @@ function MapView({ data: _data }: { data: unknown }) {
 }
 
 // ─── Booking form view ─────────────────────────────────────────────────────
-function BookingView({ data, onBack }: { data?: { location?: string; startDate?: string; endDate?: string }; onBack: () => void }) {
+function BookingView({ car, data, onBack }: {
+  car?: Car;
+  data?: { location?: string; startDate?: string; endDate?: string };
+  onBack: () => void;
+}) {
+  const gradient = car ? (BRAND_GRADIENTS[car.make] ?? DEFAULT_GRADIENT) : DEFAULT_GRADIENT;
+  const location = data?.location ?? car?.location ?? "";
+
+  const form = (
+    <div className="booking-card">
+      <div className="booking-section">
+        <label className="booking-label">Pickup location</label>
+        <input className="booking-input" defaultValue={location} placeholder="Enter pickup location" />
+      </div>
+      <div className="booking-row">
+        <div className="booking-section">
+          <label className="booking-label">Pickup date</label>
+          <input className="booking-input" type="date" defaultValue={data?.startDate ?? ""} />
+        </div>
+        <div className="booking-section">
+          <label className="booking-label">Return date</label>
+          <input className="booking-input" type="date" defaultValue={data?.endDate ?? ""} />
+        </div>
+      </div>
+      <div className="booking-section">
+        <label className="booking-label">Payment method</label>
+        <input className="booking-input" placeholder="Card number" />
+      </div>
+      <button className="booking-button">Reserve now</button>
+    </div>
+  );
+
+  if (car) {
+    return (
+      <div className="car-detail-layout car-detail-layout--split">
+        {/* ── Car info panel ── */}
+        <div className="car-detail-view">
+          <div className="car-detail-nav">
+            <button className="car-detail-back" onClick={onBack}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m15 18-6-6 6-6" />
+              </svg>
+              Back
+            </button>
+            <span className="car-type-badge car-type-badge--inline">{car.type}</span>
+          </div>
+
+          <div className="car-detail-hero" style={car.image ? undefined : { background: gradient }}>
+            {car.image && (
+              <img className="car-detail-hero-img" src={car.image} alt={`${car.make} ${car.model}`} />
+            )}
+            <div className="car-detail-hero-fade" />
+            <div className="car-detail-hero-content">
+              <p className="car-detail-hero-eyebrow">{car.year} · {car.location}</p>
+              <h2 className="car-detail-hero-title">{car.make} {car.model}</h2>
+            </div>
+          </div>
+
+          <div className="car-detail-header">
+            <div className="car-detail-meta">
+              <span className="car-rating"><span className="rating-star">★</span>{car.rating.toFixed(2)}</span>
+              <span className="car-sep">·</span>
+              <span className="car-reviews">{car.reviewCount} reviews</span>
+              <span className="car-sep">·</span>
+              <span className="car-location">{car.location}</span>
+            </div>
+            <div className="car-detail-price-block">
+              <span className="car-detail-price">${car.pricePerDay}</span>
+              <span className="car-price-unit">/day</span>
+            </div>
+          </div>
+
+          <div className="car-detail-specs-grid">
+            <div className="car-detail-spec-card">
+              <span className="car-detail-spec-icon">👤</span>
+              <span className="car-detail-spec-label">Seats</span>
+              <span className="car-detail-spec-value">{car.seats}</span>
+            </div>
+            <div className="car-detail-spec-card">
+              <span className="car-detail-spec-icon">📍</span>
+              <span className="car-detail-spec-label">Mileage</span>
+              <span className="car-detail-spec-value">{car.range}</span>
+            </div>
+            {car.transmission && (
+              <div className="car-detail-spec-card">
+                <span className="car-detail-spec-icon">⚙️</span>
+                <span className="car-detail-spec-label">Transmission</span>
+                <span className="car-detail-spec-value" style={{ textTransform: "capitalize" }}>{car.transmission}</span>
+              </div>
+            )}
+            {car.fuelType && (
+              <div className="car-detail-spec-card">
+                <span className="car-detail-spec-icon">⛽</span>
+                <span className="car-detail-spec-label">Fuel</span>
+                <span className="car-detail-spec-value" style={{ textTransform: "capitalize" }}>{car.fuelType}</span>
+              </div>
+            )}
+          </div>
+
+          <div className="car-detail-features-section">
+            <h4 className="car-detail-section-title">Features</h4>
+            <div className="car-features">
+              {car.features.map((f) => (
+                <span key={f} className="feature-tag feature-tag--detail">{f}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ── Booking panel ── */}
+        <div className="car-booking-panel">
+          <div className="car-booking-panel-header">
+            <div>
+              <p className="empty-eyebrow" style={{ marginBottom: 4 }}>{car.make} {car.model}</p>
+              <h3 className="booking-title" style={{ marginBottom: 0 }}>Complete your booking</h3>
+            </div>
+            <span className="car-detail-price">${car.pricePerDay}<span className="car-price-unit">/day</span></span>
+          </div>
+          {form}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="booking-view">
       <div className="car-detail-nav" style={{ marginBottom: 8 }}>
@@ -305,39 +430,7 @@ function BookingView({ data, onBack }: { data?: { location?: string; startDate?:
         </button>
       </div>
       <h3 className="booking-title">Complete your booking</h3>
-      <div className="booking-card">
-        <div className="booking-section">
-          <label className="booking-label">Pickup location</label>
-          <input
-            className="booking-input"
-            defaultValue={data?.location ?? ""}
-            placeholder="Enter pickup location"
-          />
-        </div>
-        <div className="booking-row">
-          <div className="booking-section">
-            <label className="booking-label">Pickup date</label>
-            <input
-              className="booking-input"
-              type="date"
-              defaultValue={data?.startDate ?? ""}
-            />
-          </div>
-          <div className="booking-section">
-            <label className="booking-label">Return date</label>
-            <input
-              className="booking-input"
-              type="date"
-              defaultValue={data?.endDate ?? ""}
-            />
-          </div>
-        </div>
-        <div className="booking-section">
-          <label className="booking-label">Payment method</label>
-          <input className="booking-input" placeholder="Card number" />
-        </div>
-        <button className="booking-button">Reserve now</button>
-      </div>
+      {form}
     </div>
   );
 }
